@@ -12,18 +12,11 @@
 #include <cmath>
 
 namespace priori{
-	union Color{
-		uint32_t c;
-		struct{
-			uint8_t b;
-			uint8_t g;
-			uint8_t r;
-			uint8_t a;
-		};
+	struct Color{
+		uint8_t a, r, g, b;
 
-		Color() : c(0) {};
-		Color(int c) : c(c) {};
-		Color(int r, int g, int b) : b(b), g(g), r(r), a(0) {};
+		Color(uint32_t c=0) : a(c>>24), r(c>>16), g(c>>8), b(c) {};
+		Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a=0xFF) : a(a), r(r), g(g), b(b) {};
 
 		Color operator*(const Color &other){
 			return Color(255*(r/255.0)*(other.r/255.0),
@@ -80,6 +73,13 @@ namespace priori{
 			g = std::min(255.0, g*other);
 			b = std::min(255.0, b*other);
 			return *this;
+		}
+
+		operator uint32_t() const{
+			return (a<<24) |
+				   (r<<16) |
+				   (g<<8)  |
+				   b;
 		}
 	};
 }
