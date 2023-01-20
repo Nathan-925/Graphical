@@ -14,16 +14,9 @@ namespace priori{
 		const int width, height;
 		Color** pixels;
 
-		Image(int w, int h) : width(w), height(h), pixels(new Color*[width]) {
-			for(int i = 0; i < width; i++)
-				pixels[i] = new Color[height];
-		};
+		Image(int w, int h);
 
-		~Image() {
-			for(int i = 0; i < width; i++)
-				delete[] pixels[i];
-			delete[] pixels;
-		};
+		~Image();
 	};
 }
 
