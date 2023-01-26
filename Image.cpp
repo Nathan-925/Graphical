@@ -17,4 +17,8 @@ namespace priori{
 			delete[] pixels[i];
 		delete[] pixels;
 	};
+
+	Color* Image::operator[](int n){
+		return pixels[n];
+	}
 }

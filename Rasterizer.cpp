@@ -5,35 +5,41 @@
  *      Author: Nathan
  */
 #include <cmath>
-#include <iostream>
+#include <algorithm>
 
 #include "Rasterizer.h"
 
 using namespace std;
 
 namespace priori{
-	void drawLine(Image target, Color color, Point p1, Point p2){
+	void drawLine(Image &target, Color color, Point p1, Point p2){
 		int dx = abs(p2.x-p1.x);
 		int dy = abs(p2.y-p1.y);
 		if(dx > dy){
+			if(p1.x > p2.x)
+				swap(p1, p2);
 			double* line = lerp<double>(p1.x, p1.y, p2.x, p2.y);
 			for(int i = 0; i <= dx; i++)
-				target.pixels[i+(int)p1.x][(int)round(line[i])] = color;
+				target[i+(int)p1.x][(int)line[i]] = color;
+			delete[] line;
 		}
 		else{
+			if(p1.y > p2.y)
+				swap(p1, p2);
 			double* line = lerp<double>(p1.y, p1.x, p2.y, p2.x);
 			for(int i = 0; i <= dy; i++)
-				target.pixels[(int)round(line[i])][i+(int)p1.y] = color;
+				target[(int)line[i]][i+(int)p1.y] = color;
+			delete[] line;
 		}
 	}
 
-	void drawTriangle(Image target, Color color, Point p1, Point p2, Point p3){
+	void drawTriangle(Image &target, Color color, Point p1, Point p2, Point p3){
 		drawLine(target, color, p1, p2);
 		drawLine(target, color, p1, p3);
 		drawLine(target, color, p2, p3);
 	}
 
-	void fillTriangle(Image target, Color color, Point p1, Point p2, Point p3){
+	void fillTriangle(Image &target, Color color, Point p1, Point p2, Point p3){
 		if(p2.y < p1.y){
 			Point temp = p1;
 			p1 = p2;
@@ -66,20 +72,26 @@ namespace priori{
 		}
 	}
 
-	void drawPolygon(Image target, Color color, Polygon polygon){
-		cout << "in function" << endl;
+	void drawPolygon(Image &target, Color color, Polygon polygon){
 		Point prev = *polygon.begin();
-		cout << "loop" << endl;
 		for(auto it = ++polygon.begin(); it != polygon.end(); it++){
-			cout << prev.x << " " << prev.y << " " << (*it).x << " " << (*it).y << endl;
-			cout << distance(it, polygon.end()) << endl;
-			cout << (it == polygon.end()) << endl;
 			drawLine(target, color, prev, *it);
-			cout << "line" << endl;
 			prev = *it;
 		}
-		cout << "final line" << endl;
-		drawLine(target, color, *polygon.begin(), *polygon.end());
-		cout << "end function" << endl;
+		drawLine(target, color, *polygon.begin(), prev);
+	}
+
+	void drawCircle(Image &target, Color color, Point center, double radius){
+		for(int i = 0; i <= radius; i++){
+			target[(int)center.x-i][(int)round(center.y+sqrt(radius*radius-i*i))] = color;
+			target[(int)center.x+i][(int)round(center.y+sqrt(radius*radius-i*i))] = color;
+			target[(int)center.x-i][(int)round(center.y-sqrt(radius*radius-i*i))] = color;
+			target[(int)center.x+i][(int)round(center.y-sqrt(radius*radius-i*i))] = color;
+
+			target[(int)round(center.y+sqrt(radius*radius-i*i))][(int)center.y-i] = color;
+			target[(int)round(center.y+sqrt(radius*radius-i*i))][(int)center.y+i] = color;
+			target[(int)round(center.y-sqrt(radius*radius-i*i))][(int)center.y-i] = color;
+			target[(int)round(center.y-sqrt(radius*radius-i*i))][(int)center.y+i] = color;
+		}
 	}
 }

@@ -17,6 +17,8 @@ namespace priori{
 		Image(int w, int h);
 
 		~Image();
+
+		Color* operator[](int n);
 	};
 }
 
