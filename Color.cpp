@@ -4,6 +4,8 @@
  *  Created on: Jan 19, 2023
  *      Author: Nathan
  */
+#include <cmath>
+
 #include "Color.h"
 
 namespace priori{
@@ -36,35 +38,44 @@ namespace priori{
 	}
 
 	Color Color::operator*(const double &other){
-		return Color((uint8_t)(r*other),
-					 (uint8_t)(g*other),
-					 (uint8_t)(b*other));
+		return Color(std::min(255, std::max(0, (int)(r*other))),
+					 std::min(255, std::max(0, (int)(g*other))),
+					 std::min(255, std::max(0, (int)(b*other))));
 	}
 
 	Color Color::operator/(const double &other){
-		return Color((uint8_t)(r/other),
-					 (uint8_t)(g/other),
-					 (uint8_t)(b/other));
+		return Color(std::min(255, std::max(0, (int)(r/other))),
+					 std::min(255, std::max(0, (int)(g/other))),
+					 std::min(255, std::max(0, (int)(b/other))));
 	}
 
 	Color Color::operator+=(const Color &other){
-		r = std::min(255, r+other.r);
-		g = std::min(255, g+other.g);
-		b = std::min(255, b+other.b);
+		*this = *this+other;
 		return *this;
 	}
 
 	Color Color::operator-=(const Color &other){
-		r = std::max(255, r-other.r);
-		g = std::max(255, g-other.g);
-		b = std::max(255, b-other.b);
+		*this = *this-other;
+		return *this;
+	}
+
+	Color Color::operator*=(const Color &other){
+		*this = *this*other;
+		return *this;
+	}
+
+	Color Color::operator/=(const Color &other){
+		*this = *this/other;
 		return *this;
 	}
 
 	Color Color::operator*=(const double &other){
-		r = std::min(255.0, r*other);
-		g = std::min(255.0, g*other);
-		b = std::min(255.0, b*other);
+		*this = *this*other;
+		return *this;
+	}
+
+	Color Color::operator/=(const double &other){
+		*this = *this/other;
 		return *this;
 	}
 
