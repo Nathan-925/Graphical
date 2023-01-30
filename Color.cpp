@@ -10,8 +10,8 @@
 
 namespace priori{
 
-	Color::Color(uint32_t c) : a(c>>24), r(c>>16), g(c>>8), b(c) {};
-	Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : a(a), r(r), g(g), b(b) {};
+	Color::Color(uint32_t c) : r((c>>16)%0x100), g((c>>8)%0x100), b(c%0x100), a(c>>24) {};
+	Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a) : r(r), g(g), b(b), a(a) {};
 
 	Color Color::operator*(const Color &other){
 		return Color(255*(r/255.0)*(other.r/255.0),
@@ -80,9 +80,9 @@ namespace priori{
 	}
 
 	Color::operator uint32_t() const{
-		return (a<<24) |
-			   (r<<16) |
-			   (g<<8)  |
+		return ((uint32_t)a<<24) |
+			   ((uint32_t)r<<16) |
+			   ((uint32_t)g<<8)  |
 			   b;
 	}
 }

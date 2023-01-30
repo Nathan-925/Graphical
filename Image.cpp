@@ -10,15 +10,27 @@ namespace priori{
 	Image::Image(int w, int h) : width(w), height(h), pixels(new Color*[width]) {
 		for(int i = 0; i < width; i++)
 			pixels[i] = new Color[height];
-	};
+	}
+
+	Image::Image(const Image &other) : width(other.width), height(other.height), pixels(new Color*[width]) {
+		for(int i = 0; i < width; i++){
+			pixels[i] = new Color[height];
+			for(int j = 0; j < height; j++)
+				pixels[i][j] = other[i][j];
+		}
+	}
 
 	Image::~Image() {
 		for(int i = 0; i < width; i++)
 			delete[] pixels[i];
 		delete[] pixels;
-	};
+	}
 
-	Color* Image::operator[](int n){
+	Color*& Image::operator[](int n){
 		return pixels[n];
+	}
+
+	const Color*& Image::operator[](int n) const{
+		return (const Color*&)(pixels[n]);
 	}
 }

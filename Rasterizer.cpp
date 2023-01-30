@@ -13,17 +13,35 @@
 using namespace std;
 
 namespace priori{
-	void drawLine(Image &target, Color color, Point p1, Point p2){
-		double d = max(abs(p2.x-p1.x), abs(p2.y-p1.y));
-		forward_list<Point> list = lerp(0, p1, d, p2);
-		for(auto it = list.begin(); it != list.end(); it++)
-			target[(int)round((*it).x)][(int)round((*it).y)] = color;
+	void drawLine(Image &target, Color color, int x1, int y1, int x2, int y2){
+		int dx = abs(x2-x1);
+		int dy = abs(y2-y1);
+		if(dx > dy){
+			if(x1 > x2){
+				swap(x1, x2);
+				swap(y1, y2);
+			}
+			forward_list<double> line = lerp<double>(x1, y1, x2, y2);
+			auto it = line.begin();
+			for(int i = 0; i <= dx; i++)
+				target[i+(int)x1][(int)round(*it++)] = color;
+		}
+		else{
+			if(y1 > y2){
+				swap(x1, x2);
+				swap(y1, y2);
+			}
+			forward_list<double> line = lerp<double>(y1, x1, y2, x2);
+			auto it = line.begin();
+			for(int i = 0; i <= dy; i++)
+				target[(int)round(*it++)][i+(int)y1] = color;
+		}
 	}
 
 	void drawTriangle(Image &target, Color color, Point p1, Point p2, Point p3){
-		drawLine(target, color, p1, p2);
-		drawLine(target, color, p1, p3);
-		drawLine(target, color, p2, p3);
+		drawLine(target, color, p1.x, p1.y, p2.x, p2.y);
+		drawLine(target, color, p1.x, p1.y, p3.x, p3.y);
+		drawLine(target, color, p2.x, p2.y, p3.x, p3.y);
 	}
 
 	void fillTriangle(Image &target, Color color, Point p1, Point p2, Point p3){
@@ -63,10 +81,10 @@ namespace priori{
 	void drawPolygon(Image &target, Color color, Polygon polygon){
 		Point prev = *polygon.begin();
 		for(auto it = ++polygon.begin(); it != polygon.end(); it++){
-			drawLine(target, color, prev, *it);
+			drawLine(target, color, prev.x, prev.y, (*it).x, (*it).y);
 			prev = *it;
 		}
-		drawLine(target, color, *polygon.begin(), prev);
+		drawLine(target, color, (*polygon.begin()).x, (*polygon.begin()).y, prev.x, prev.y);
 	}
 
 	void drawCircle(Image &target, Color color, Point center, double radius){

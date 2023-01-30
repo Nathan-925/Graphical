@@ -12,13 +12,14 @@
 namespace priori{
 	struct Image{
 		const int width, height;
-		Color** pixels;
+		Color** const pixels;
 
 		Image(int w, int h);
-
+		Image(const Image &other);
 		~Image();
 
-		Color* operator[](int n);
+		Color*& operator[](int n);
+		const Color*& operator[](int n) const;
 	};
 }
 
