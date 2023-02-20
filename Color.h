@@ -22,16 +22,16 @@ namespace priori{
 		Color operator+(const Color &other);
 		Color operator-(const Color &other);
 
-		Color operator*(const double &other);
-		Color operator/(const double &other);
+		Color operator*(const double &d);
+		Color operator/(const double &d);
 
 		Color operator+=(const Color &other);
 		Color operator-=(const Color &other);
 		Color operator*=(const Color &other);
 		Color operator/=(const Color &other);
 
-		Color operator*=(const double &other);
-		Color operator/=(const double &other);
+		Color operator*=(const double &d);
+		Color operator/=(const double &d);
 
 		operator uint32_t() const;
 	};

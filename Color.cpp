@@ -37,45 +37,57 @@ namespace priori{
 					 std::max(0, b-other.b));
 	}
 
-	Color Color::operator*(const double &other){
-		return Color(std::min(255, std::max(0, (int)(r*other))),
-					 std::min(255, std::max(0, (int)(g*other))),
-					 std::min(255, std::max(0, (int)(b*other))));
+	Color Color::operator*(const double &d){
+		return Color(std::min(255, std::max(0, (int)(r*d))),
+					 std::min(255, std::max(0, (int)(g*d))),
+					 std::min(255, std::max(0, (int)(b*d))));
 	}
 
-	Color Color::operator/(const double &other){
-		return Color(std::min(255, std::max(0, (int)(r/other))),
-					 std::min(255, std::max(0, (int)(g/other))),
-					 std::min(255, std::max(0, (int)(b/other))));
+	Color Color::operator/(const double &d){
+		return Color(std::min(255, std::max(0, (int)(r/d))),
+					 std::min(255, std::max(0, (int)(g/d))),
+					 std::min(255, std::max(0, (int)(b/d))));
 	}
 
 	Color Color::operator+=(const Color &other){
-		*this = *this+other;
+		r = std::min(255, r+other.r);
+		g = std::min(255, g+other.g);
+		b = std::min(255, b+other.b);
 		return *this;
 	}
 
 	Color Color::operator-=(const Color &other){
-		*this = *this-other;
+		r = std::max(0, r-other.r);
+		g = std::max(0, g-other.g);
+		b = std::max(0, b-other.b);
 		return *this;
 	}
 
 	Color Color::operator*=(const Color &other){
-		*this = *this*other;
+		r = 255*(r/255.0)*(other.r/255.0);
+		g = 255*(g/255.0)*(other.g/255.0);
+		b = 255*(b/255.0)*(other.b/255.0);
 		return *this;
 	}
 
 	Color Color::operator/=(const Color &other){
-		*this = *this/other;
+		r = 255*(r/255.0)/(other.r/255.0);
+		g = 255*(g/255.0)/(other.g/255.0);
+		b = 255*(b/255.0)/(other.b/255.0);
 		return *this;
 	}
 
-	Color Color::operator*=(const double &other){
-		*this = *this*other;
+	Color Color::operator*=(const double &d){
+		r = std::min(255, std::max(0, (int)(r*d)));
+		g = std::min(255, std::max(0, (int)(g*d)));
+		b = std::min(255, std::max(0, (int)(b*d)));
 		return *this;
 	}
 
-	Color Color::operator/=(const double &other){
-		*this = *this/other;
+	Color Color::operator/=(const double &d){
+		r = std::min(255, std::max(0, (int)(r/d)));
+		g = std::min(255, std::max(0, (int)(g/d)));
+		b = std::min(255, std::max(0, (int)(b/d)));
 		return *this;
 	}
 
