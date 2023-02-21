@@ -17,13 +17,13 @@ namespace priori{
 		Color(uint32_t c=0);
 		Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a=0xFF);
 
-		Color operator*(const Color &other);
-		Color operator/(const Color &other);
-		Color operator+(const Color &other);
-		Color operator-(const Color &other);
+		Color operator*(const Color &other) const;
+		Color operator/(const Color &other) const;
+		Color operator+(const Color &other) const;
+		Color operator-(const Color &other) const;
 
-		Color operator*(const double &d);
-		Color operator/(const double &d);
+		Color operator*(const double &d) const;
+		Color operator/(const double &d) const;
 
 		Color operator+=(const Color &other);
 		Color operator-=(const Color &other);
@@ -33,7 +33,7 @@ namespace priori{
 		Color operator*=(const double &d);
 		Color operator/=(const double &d);
 
-		operator uint32_t() const;
+		explicit operator uint32_t() const;
 	};
 }
 
