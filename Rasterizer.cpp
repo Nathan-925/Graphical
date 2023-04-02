@@ -38,13 +38,13 @@ namespace priori{
 		}
 	}
 
-	void drawTriangle(Image &target, Color color, Point p1, Point p2, Point p3){
+	void drawTriangle(Image &target, Color color, Vector p1, Vector p2, Vector p3){
 		drawLine(target, color, p1.x, p1.y, p2.x, p2.y);
 		drawLine(target, color, p1.x, p1.y, p3.x, p3.y);
 		drawLine(target, color, p2.x, p2.y, p3.x, p3.y);
 	}
 
-	void fillTriangle(Image &target, Color color, Point p1, Point p2, Point p3){
+	void fillTriangle(Image &target, Color color, Vector p1, Vector p2, Vector p3){
 		if(p2.y < p1.y)
 			swap(p1, p2);
 		if(p3.y < p1.y)
@@ -79,7 +79,7 @@ namespace priori{
 	}
 
 	void drawPolygon(Image &target, Color color, Polygon polygon){
-		Point prev = *polygon.begin();
+		Vector prev = *polygon.begin();
 		for(auto it = ++polygon.begin(); it != polygon.end(); it++){
 			drawLine(target, color, prev.x, prev.y, (*it).x, (*it).y);
 			prev = *it;
@@ -87,7 +87,7 @@ namespace priori{
 		drawLine(target, color, (*polygon.begin()).x, (*polygon.begin()).y, prev.x, prev.y);
 	}
 
-	void drawCircle(Image &target, Color color, Point center, double radius){
+	void drawCircle(Image &target, Color color, Vector center, double radius){
 		for(int i = 0; i <= radius; i++){
 			target[(int)center.x-i][(int)round(center.y+sqrt(radius*radius-i*i))] = color;
 			target[(int)center.x+i][(int)round(center.y+sqrt(radius*radius-i*i))] = color;

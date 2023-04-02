@@ -17,10 +17,10 @@
 
 namespace priori{
 	void drawLine(Image &target, Color color, int x1, int y1, int x2, int y2);
-	void drawTriangle(Image &target, Color color, Point p1, Point p2, Point p3);
-	void fillTriangle(Image &target, Color color, Point p1, Point p2, Point p3);
+	void drawTriangle(Image &target, Color color, Vector p1, Vector p2, Vector p3);
+	void fillTriangle(Image &target, Color color, Vector p1, Vector p2, Vector p3);
 	void drawPolygon(Image &target, Color color, Polygon polygon);
-	void drawCircle(Image &target, Color color, Point center, double radius);
+	void drawCircle(Image &target, Color color, Vector center, double radius);
 }
 
 #endif /* RASTERIZER_H_ */
