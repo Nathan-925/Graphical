@@ -33,6 +33,9 @@ namespace priori{
 		Color operator*=(const double &d);
 		Color operator/=(const double &d);
 
+		bool operator==(const Color &other);
+		bool operator!=(const Color &other);
+
 		explicit operator uint32_t() const;
 	};
 }

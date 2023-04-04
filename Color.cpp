@@ -91,6 +91,14 @@ namespace priori{
 		return *this;
 	}
 
+	bool Color::operator==(const Color &other){
+		return r == other.r && g == other.g && b == other.b;
+	}
+
+	bool Color::operator!=(const Color &other){
+		return r != other.r && g != other.g && b != other.b;
+	}
+
 	Color::operator uint32_t() const{
 		return ((uint32_t)a<<24) |
 			   ((uint32_t)r<<16) |
