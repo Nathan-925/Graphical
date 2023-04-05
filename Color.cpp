@@ -105,4 +105,8 @@ namespace priori{
 			   ((uint32_t)g<<8)  |
 			   b;
 	}
+
+	Color average(Color c1, Color c2){
+		return Color((c1.r+c2.r)/2, (c1.g+c2.g)/2, (c1.b+c2.b)/2);
+	}
 }

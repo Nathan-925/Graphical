@@ -38,6 +38,8 @@ namespace priori{
 
 		explicit operator uint32_t() const;
 	};
+
+	Color average(Color c1, Color c2);
 }
 
 #endif /* COLOR_H_ */
