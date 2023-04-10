@@ -21,6 +21,8 @@ namespace priori{
 		Color*& operator[](int n);
 		const Color*& operator[](int n) const;
 	};
+
+	Image trim(const Image &image, int x0, int y0, int x1, int y1);
 }
 
 #endif /* IMAGE_H_ */

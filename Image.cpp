@@ -33,4 +33,12 @@ namespace priori{
 	const Color*& Image::operator[](int n) const{
 		return (const Color*&)(pixels[n]);
 	}
+
+	Image trim(const Image &image, int x0, int y0, int x1, int y1){
+		Image out(x1-x0, y1-y0);
+		for(int i = 0; i < out.width; i++)
+			for(int j = 0; j < out.height; j++)
+				out[i][j] = image[i+x0][j+y0];
+		return out;
+	}
 }
