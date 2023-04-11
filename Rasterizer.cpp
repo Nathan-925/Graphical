@@ -21,7 +21,7 @@ namespace priori{
 				swap(x1, x2);
 				swap(y1, y2);
 			}
-			forward_list<double> line = lerp<double>(x1, y1, x2, y2);
+			vector<double> line = lerp<double>(x1, y1, x2, y2);
 			auto it = line.begin();
 			for(int i = 0; i <= dx; i++)
 				target[i+(int)x1][(int)round(*it++)] = color;
@@ -31,7 +31,7 @@ namespace priori{
 				swap(x1, x2);
 				swap(y1, y2);
 			}
-			forward_list<double> line = lerp<double>(y1, x1, y2, x2);
+			vector<double> line = lerp<double>(y1, x1, y2, x2);
 			auto it = line.begin();
 			for(int i = 0; i <= dy; i++)
 				target[(int)round(*it++)][i+(int)y1] = color;
@@ -56,25 +56,19 @@ namespace priori{
 		int dy02 = abs(p3.y-p1.y);
 		int dy12 = abs(p3.y-p2.y);
 
-		forward_list<double> x01 = priori::lerp<double>(0, p1.x, dy01, p2.x);
-		forward_list<double> x02 = priori::lerp<double>(0, p1.x, dy02, p3.x);
-		forward_list<double> x12 = priori::lerp<double>(0, p2.x, dy12, p3.x);
-		x12.pop_front();
+		vector<double> x01 = priori::lerp<double>(0, p1.x, dy01, p2.x);
+		vector<double> x02 = priori::lerp<double>(0, p1.x, dy02, p3.x);
+		vector<double> x12 = priori::lerp<double>(0, p2.x, dy12, p3.x);
+		x01.pop_back();
 
 		for(int i = 0; i < dy02; i++){
-			double x0 = x02.front();
-			double x1 = x01.empty() ? x12.front() : x01.front();
+			double x0 = x02[i];
+			double x1 = i >= (int)x01.size() ? x12[i-x01.size()] : x01[i];
 			if(x0 > x1)
 				swap(x0, x1);
 
 			for(int j = round(x0); j < round(x1); j++)
 				target[j][(int)round(p1.y)+i] = color;
-
-			x02.pop_front();
-			if(x01.empty())
-				x12.pop_front();
-			else
-				x01.pop_front();
 		}
 	}
 
