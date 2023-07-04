@@ -16,26 +16,27 @@ namespace priori{
 	void drawLine(Image &target, Color color, int x1, int y1, int x2, int y2){
 		int dx = abs(x2-x1);
 		int dy = abs(y2-y1);
+		double* line;
+
 		if(dx > dy){
 			if(x1 > x2){
 				swap(x1, x2);
 				swap(y1, y2);
 			}
-			vector<double> line = lerp<double>(x1, y1, x2, y2);
-			auto it = line.begin();
+			line = lerp<double>(x1, y1, x2, y2);
 			for(int i = 0; i <= dx; i++)
-				target[i+(int)x1][(int)round(*it++)] = color;
+				target[i+(int)x1][(int)round(line[i])] = color;
 		}
 		else{
 			if(y1 > y2){
 				swap(x1, x2);
 				swap(y1, y2);
 			}
-			vector<double> line = lerp<double>(y1, x1, y2, x2);
-			auto it = line.begin();
+			line = lerp<double>(y1, x1, y2, x2);
 			for(int i = 0; i <= dy; i++)
-				target[(int)round(*it++)][i+(int)y1] = color;
+				target[(int)round(line[i])][i+(int)y1] = color;
 		}
+		delete[] line;
 	}
 
 	void drawTriangle(Image &target, Color color, Vector p1, Vector p2, Vector p3){
@@ -56,14 +57,13 @@ namespace priori{
 		int dy02 = abs(p3.y-p1.y);
 		int dy12 = abs(p3.y-p2.y);
 
-		vector<double> x01 = priori::lerp<double>(0, p1.x, dy01, p2.x);
-		vector<double> x02 = priori::lerp<double>(0, p1.x, dy02, p3.x);
-		vector<double> x12 = priori::lerp<double>(0, p2.x, dy12, p3.x);
-		x01.pop_back();
+		double* x01 = lerp<double>(0, p1.x, dy01, p2.x);
+		double* x02 = lerp<double>(0, p1.x, dy02, p3.x);
+		double* x12 = lerp<double>(0, p2.x, dy12, p3.x);
 
 		for(int i = 0; i < dy02; i++){
 			double x0 = x02[i];
-			double x1 = i >= (int)x01.size() ? x12[i-x01.size()] : x01[i];
+			double x1 = i >= dy01 ? x12[i-dy01] : x01[i];
 			if(x0 > x1)
 				swap(x0, x1);
 
