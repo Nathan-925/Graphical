@@ -4,7 +4,7 @@
  *  Created on: Jan 19, 2023
  *      Author: Nathan
  */
-#include <cmath>
+#include <algorithm>
 
 #include "Color.h"
 
